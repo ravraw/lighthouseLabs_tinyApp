@@ -1,0 +1,22 @@
+{
+  "name": "lighthouselabs_tinyapp",
+  "version": "1.0.0",
+  "description": "\"lighthouse labs : project-2 TINY APP\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ravraw/lighthouseLabs_tinyApp.git"
+  },
+  "author": "ravindra rawat (ravraw)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ravraw/lighthouseLabs_tinyApp/issues"
+  },
+  "homepage": "https://github.com/ravraw/lighthouseLabs_tinyApp#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
