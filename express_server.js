@@ -28,9 +28,10 @@ app.get('/urls', (req, res) => {
 });
 
 app.post('/urls', (req, res) => {
-  console.log(req.body); // debug statement to see POST parameters
+  console.log(req.body);
+  let { longURL } = req.body; // debug statement to see POST parameters
   let random = randomUrls.randomUrl();
-  res.status(201).send({ random }); // Respond with 'Ok' (we will replace this)
+  res.status(201).send({ random, longURL }); // Respond with 'Ok' (we will replace this)
 });
 
 app.get('/urls/new', (req, res) => {
