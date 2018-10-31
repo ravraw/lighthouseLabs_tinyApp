@@ -61,6 +61,16 @@ app.post('/urls', (req, res) => {
   res.status(201).redirect(`/urls/${random}`); // Respond with 'Ok' (we will replace this)
 });
 
+app.post('/urls/:id/delete', (req, res) => {
+  let { id } = req.params;
+  if (urlDatabase[id]) {
+    delete urlDatabase[id];
+    res.status(200).redirect('/urls');
+  } else {
+    res.status(404).send('status : 404 : resourse not found');
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
