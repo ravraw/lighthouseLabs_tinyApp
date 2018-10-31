@@ -14,6 +14,8 @@ var urlDatabase = {
   '9sm5xK': 'http://www.google.com'
 };
 
+// ============= GET REQUESTS ==================== //
+
 app.get('/', (req, res) => {
   res.send('Hello!');
 });
@@ -26,25 +28,36 @@ app.get('/urls', (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render('urls_index', templateVars);
 });
-
-app.post('/urls', (req, res) => {
-  console.log(req.body);
-  let { longURL } = req.body; // debug statement to see POST parameters
-  let random = randomUrls.randomUrl();
-  res.status(201).send({ random, longURL }); // Respond with 'Ok' (we will replace this)
-});
-
 app.get('/urls/new', (req, res) => {
   res.render('urls_new');
 });
 
+app.get('/u/:shortURL', (req, res) => {
+  let shortURL = req.params.shortURL;
+  let longURL = urlDatabase[shortURL];
+  res.status(302).redirect(longURL);
+});
+
 app.get('/urls/:id', (req, res) => {
-  let templateVars = { shortURL: req.params.id, urls: urlDatabase };
+  let templateVars = {
+    shortURL: req.params.id,
+    longURL: urlDatabase[req.params.id]
+  };
   res.render('urls_show', templateVars);
 });
 
 app.get('/hello', (req, res) => {
   res.send('<html><body>Hello <b>World</b></body></html>\n');
+});
+
+// ============= POST REQUESTS ==================== //
+
+app.post('/urls', (req, res) => {
+  //console.log(req.body);
+  let { longURL } = req.body; // debug statement to see POST parameters
+  let random = randomUrls.randomUrl();
+  urlDatabase[random] = longURL;
+  res.status(201).redirect(`/urls/${random}`); // Respond with 'Ok' (we will replace this)
 });
 
 app.listen(PORT, () => {
