@@ -29,7 +29,7 @@ app.get('/urls.json', (req, res) => {
 });
 
 app.get('/urls', (req, res) => {
-  let templateVars = { urls: urlDatabase };
+  let templateVars = { urls: urlDatabase, username: req.cookies['username'] };
   res.render('urls_index', templateVars);
 });
 app.get('/urls/new', (req, res) => {
@@ -46,7 +46,8 @@ app.get('/u/:shortURL', (req, res) => {
 app.get('/urls/:id', (req, res) => {
   let templateVars = {
     shortURL: req.params.id,
-    longURL: urlDatabase[req.params.id]
+    longURL: urlDatabase[req.params.id],
+    username: req.cookies['username']
   };
   res.render('urls_show', templateVars);
 });
@@ -86,7 +87,8 @@ app.post('/urls/:id', (req, res) => {
 // login
 app.post('/login', (req, res) => {
   let { username } = req.body;
-  console.log(username);
+  res.cookie('username', username);
+  res.status(200).redirect('/urls');
 });
 
 app.listen(PORT, () => {
