@@ -17,6 +17,18 @@ var urlDatabase = {
   b2xVn2: 'http://www.lighthouselabs.ca',
   '9sm5xK': 'http://www.google.com'
 };
+const users = {
+  1: {
+    id: '1',
+    email: 'user1@example.com',
+    password: 'monkey'
+  },
+  2: {
+    id: '2',
+    email: 'user2@example.com',
+    password: 'funk'
+  }
+};
 
 // ============= GET REQUESTS ==================== //
 
@@ -103,7 +115,12 @@ app.post('/logout', (req, res) => {
 
 // register
 app.post('/register', (req, res) => {
-  res.render('register');
+  const { email, password } = req.body;
+  const id = randomUrls.randomUrl();
+  const user = { id, email, password };
+  users[id] = user;
+  res.cookie('user_id', id);
+  res.status(201).redirect('/urls');
 });
 
 app.listen(PORT, () => {
