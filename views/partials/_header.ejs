@@ -1,8 +1,14 @@
 
 
 <h1>TINY APP</h1>
-<p>Logged-in as <%= username %></p>
-<form method="POST" action="/login">
-<input type="text" name="username"/>
-<input type="submit" />
-</form> 
+
+<% if (username) { %>
+  <h1>Logged-in as <%= username %></h1>
+ <form method="POST" action="/logout">
+   <input type="submit" value="Logout"x>  
+ </form> 
+ <%} else {%> 
+  <form method="POST" action="/login"Logout></input>
+ <input type="text" name="username"  placeholder = "Enter username..."/>
+ <input type="submit" /> </form>  
+<% } %>
