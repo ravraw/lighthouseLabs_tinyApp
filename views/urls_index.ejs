@@ -9,19 +9,29 @@
 </head>
 <body>
 <header>
-<% include ./partials/_header %>
+<% include ./partials/_header%>
 </header>
     <!-- Add your EJS code here -->
 <h1>URLS</h1>
-  <ul>
+  <ul> 
+  <% if ( currentUser ){ %>
     <% for(let key in urls){ %>
-     <li> <%= key %> : <%= urls[key] %>
-      <a href="/urls/<%= key %>">Edit</a> 
+    <% if(currentUser.id === urls[key].userID){ %>
+  <li>Created by "<%= users[urls[key].userID].email %>" <br>ShortURL : <%= key %> <br>  longURL : <%= urls[key][key] %>
+     <br>
+      
       <form method="POST" action="/urls/<%= key %>/delete"> 
+   <a href="/urls/<%= key %>"> Edit </a> 
         <input type="submit" value="Delete">  
       </form>
       </li> 
+      <span>--------------------------------------------------------</span>
    <% } %>
+   
+   <% } %>
+    <% } else {%>
+    <p>PLEASE LOGIN TO SEE URLS</p>
+    <% }%>
   </ul>
 </body>
 </html>

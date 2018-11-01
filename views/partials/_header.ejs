@@ -1,20 +1,16 @@
 
 
-<h1>TINY APP</h1>
+<h1>TINY APP</h1
+<% if( currentUser ){ %>
+<h1>Logged-in as <%= currentUser.email %></h1>
+ <p> <form method="POST" action="/logout">
+   <input type="submit" value="Logout">  
+ </form> </P>
+<% } else {%>
+<h2><a href="/login">LOGIN</a> | <a href="/register">REGISTER</a> </h2>
+<% } %>
+<hr>
 
-<a href="/login">LOGIN</a> | <a href="/register">REGISTER</a> 
- <h1>Logged-in as <%= user.email %></h1>
- <form method="POST" action="/logout">
-   <input type="submit" value="Logout"x>  
- </form> 
  
-<!--  <% if(user){ %>
-  <h1>Logged-in as <%= user.email %></h1>
- <form method="POST" action="/logout">
-   <input type="submit" value="Logout"x>  
- </form> 
- <% } else {%> 
-  <form method="POST" action="/login"></input>
- <input type="text" name="user_id"  placeholder = "Enter username..."/>
- <input type="submit" /> </form>  
-<% } %> -->
+ 
+

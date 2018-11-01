@@ -13,10 +13,21 @@ const randomUrls = require('./generateRandomString');
 //view engine - ejs
 app.set('view engine', 'ejs');
 
-var urlDatabase = {
-  b2xVn2: 'http://www.lighthouselabs.ca',
-  '9sm5xK': 'http://www.google.com'
+const urlDatabase = {
+  b2xVn2: {
+    userID: '1',
+    b2xVn2: 'http://www.lighthouselabs.ca'
+  },
+  '9sm5xK': {
+    userID: '2',
+    '9sm5xK': 'http://www.google.com'
+  },
+  XXXxxx: {
+    userID: '3',
+    XXXxxx: 'http://www.ravraw.io'
+  }
 };
+
 const users = {
   '1': {
     id: '1',
@@ -47,19 +58,21 @@ app.get('/urls.json', (req, res) => {
 
 app.get('/urls', (req, res) => {
   let user_id = req.cookies['user_id'];
-  let user = users[user_id];
-  console.log(user.email);
+  let currentUser = users[user_id];
   let templateVars = {
-    urls: urlDatabase,
     user_id,
-    user
+    currentUser,
+    urls: urlDatabase,
+    users: users
   };
+  //console.log(templateVars);
   res.render('urls_index', templateVars);
 });
 app.get('/urls/new', (req, res) => {
   const { user_id } = req.cookies;
   const user = users[user_id];
-  console.log(req.cookies);
+  //console.log('cookie:', req.cookies);
+  //console.log(urlDatabase);
   let templateVars = {
     user
   };
@@ -79,11 +92,12 @@ app.get('/u/:shortURL', (req, res) => {
 
 app.get('/urls/:id', (req, res) => {
   let user_id = req.cookies['user_id'];
+  let shortURL = req.params.id;
   let user = users[user_id];
-  console.log(user);
+  //console.log(user);
   let templateVars = {
-    shortURL: req.params.id,
-    longURL: urlDatabase[req.params.id],
+    shortURL,
+    longURL: urlDatabase[shortURL][shortURL],
     user_id,
     users
   };
@@ -104,16 +118,23 @@ app.get('/hello', (req, res) => {
 
 // ============= POST REQUESTS ==================== //
 
+// add new url
 app.post('/urls', (req, res) => {
-  //console.log(req.body);
-  let { longURL } = req.body; // debug statement to see POST parameters
+  let currentUser = req.cookies.user_id;
+  let { longURL } = req.body;
   let random = randomUrls.randomUrl();
-  urlDatabase[random] = longURL;
-  res.status(201).redirect(`/urls/${random}`); // Respond with 'Ok' (we will replace this)
+  let newURL = {
+    userID: currentUser,
+    [random]: longURL
+  };
+  urlDatabase[random] = newURL;
+  res.status(201).redirect(`/urls`); // Respond with 'Ok' (we will replace this)
 });
 
+// delete url
 app.post('/urls/:id/delete', (req, res) => {
   let { id } = req.params;
+  let currentUser = req.cookies(userID);
   if (urlDatabase[id]) {
     delete urlDatabase[id];
     res.status(200).redirect('/urls');
@@ -135,7 +156,7 @@ app.post('/login', (req, res) => {
   const { email, password } = req.body;
   let user_id;
   for (let key in users) {
-    console.log('From Login :', users[key].email, users[key].password);
+    //console.log('From Login :', users[key].email, users[key].password);
     if (users[key].email === email && users[key].password === password) {
       user_id = key;
     }
@@ -181,10 +202,10 @@ app.post('/register', (req, res) => {
     res.status(400).send('status: 400 : Bad request');
   } else {
     users[user_id] = user;
-    console.log(users);
+    //console.log(users);
     res.cookie('user_id', user_id);
-    console.log('good');
-    console.log(users);
+    // console.log('good');
+    // console.log(users);
     res.status(201).redirect('/urls');
   }
 });

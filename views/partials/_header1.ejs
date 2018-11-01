@@ -1,0 +1,18 @@
+
+<h1>TINY APP</h1>
+
+<a href="/login">LOGIN</a> | <a href="/register">REGISTER</a> 
+
+ <h1>Logged-in as <%= user.email %></h1>
+ <form method="POST" action="/logout">
+   <input type="submit" value="Logout">  
+ </form>
+ 
+<!--  <% if(user){ %>
+  <h1>Logged-in as <%= user.email %></h1>
+ 
+ <% } else {%> 
+  <form method="POST" action="/login"></input>
+ <input type="text" name="user_id"  placeholder = "Enter username..."/>
+ <input type="submit" /> </form>  
+<% } %> -->
