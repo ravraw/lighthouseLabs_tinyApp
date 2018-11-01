@@ -97,9 +97,10 @@ app.get('/urls/new', (req, res) => {
 
 app.get('/u/:shortURL', (req, res) => {
   let shortURL = req.params.shortURL;
-  let longURL = urlDatabase[shortURL];
-  if (longURL) res.status(302).redirect(longURL);
-  else res.status(404).send('status: 404 : Requested path not found');
+  let longURL = urlDatabase[shortURL][shortURL];
+  if (longURL) {
+    res.status(302).redirect(longURL);
+  } else res.status(404).send('status: 404 : Requested path not found');
 });
 
 app.get('/urls/:id', (req, res) => {
@@ -113,7 +114,11 @@ app.get('/urls/:id', (req, res) => {
     currentUser,
     users
   };
-  res.render('urls_show', templateVars);
+  if (currentUser === urlDatabase[shortURL].userID) {
+    res.render('urls_show', templateVars);
+  } else {
+    res.status(401).send('Not authorized to change others urls');
+  }
 });
 
 app.get('/register', (req, res) => {
