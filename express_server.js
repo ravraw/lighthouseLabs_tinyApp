@@ -18,15 +18,20 @@ var urlDatabase = {
   '9sm5xK': 'http://www.google.com'
 };
 const users = {
-  1: {
+  '1': {
     id: '1',
     email: 'user1@example.com',
     password: 'monkey'
   },
-  2: {
+  '2': {
     id: '2',
     email: 'user2@example.com',
     password: 'funk'
+  },
+  '3': {
+    id: '3',
+    email: 'r@r.com',
+    password: 'ravraw'
   }
 };
 
@@ -78,6 +83,10 @@ app.get('/register', (req, res) => {
   res.render('register');
 });
 
+app.get('/login', (req, res) => {
+  res.status(200).render('login');
+});
+
 app.get('/hello', (req, res) => {
   res.send('<html><body>Hello <b>World</b></body></html>\n');
 });
@@ -112,10 +121,20 @@ app.post('/urls/:id', (req, res) => {
 
 // login
 app.post('/login', (req, res) => {
-  //let { user_id } = req.body;
-  let user_id = randomUrls.randomUrl();
-  res.cookie('user_id', user_id);
-  res.status(200).redirect('/urls');
+  const { email, password } = req.body;
+  let user_id;
+
+  for (let key in users) {
+    if (users[key].email === email && users[key].password === password) {
+      user_id = users[key].id;
+    }
+  }
+  if (user_id) {
+    res.cookie('user_id', user_id);
+    res.status(200).redirect('/');
+  } else {
+    res.status(403).send('Status : 403 : Invalid username or password');
+  }
 });
 
 // logout
