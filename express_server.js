@@ -48,7 +48,7 @@ app.get('/urls.json', (req, res) => {
 app.get('/urls', (req, res) => {
   let user_id = req.cookies['user_id'];
   let user = users[user_id];
-  console.log({ user_id, user }, users);
+  console.log(user.email);
   let templateVars = {
     urls: urlDatabase,
     user_id,
@@ -70,11 +70,12 @@ app.get('/u/:shortURL', (req, res) => {
 app.get('/urls/:id', (req, res) => {
   let user_id = req.cookies['user_id'];
   let user = users[user_id];
+  console.log(user);
   let templateVars = {
     shortURL: req.params.id,
     longURL: urlDatabase[req.params.id],
     user_id,
-    user
+    users
   };
   res.render('urls_show', templateVars);
 });
@@ -123,10 +124,10 @@ app.post('/urls/:id', (req, res) => {
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   let user_id;
-
   for (let key in users) {
+    console.log('From LOgin :', users[key].email, users[key].password);
     if (users[key].email === email && users[key].password === password) {
-      user_id = users[key].id;
+      user_id = key;
     }
   }
   if (user_id) {
@@ -140,7 +141,7 @@ app.post('/login', (req, res) => {
 // logout
 app.post('/logout', (req, res) => {
   res.clearCookie('user_id');
-  res.status(200).redirect('/urls');
+  res.status(200).redirect('/');
 });
 
 // register
