@@ -70,13 +70,13 @@ app.get('/urls', (req, res) => {
 });
 app.get('/urls/new', (req, res) => {
   const { user_id } = req.cookies;
-  const user = users[user_id];
+  const currentUser = users[user_id];
   //console.log('cookie:', req.cookies);
   //console.log(urlDatabase);
   let templateVars = {
-    user
+    currentUser
   };
-  if (user) {
+  if (currentUser) {
     res.render('urls_new', templateVars);
   } else {
     res.status(401).redirect('/login');
@@ -136,20 +136,27 @@ app.post('/urls/:id/delete', (req, res) => {
   let { id } = req.params;
   let currentUser = req.cookies.user_id;
   console.log(req.cookies.user_id);
-  if (urlDatabase[id]) {
+  if (currentUser === urlDatabase[id].userID) {
+    console.log('Delete working !!!!!');
     delete urlDatabase[id];
     res.status(200).redirect('/urls');
   } else {
-    res.status(404).send('status : 404 : resourse not found');
+    res.status(401).send('status : 401 : Not authorized to delte');
   }
 });
 
 // update longURL
 app.post('/urls/:id', (req, res) => {
+  const currentUser = req.cookies.user_id;
   const { id } = req.params;
   const { editedURL } = req.body;
-  urlDatabase[id][id] = editedURL;
-  res.status(200).redirect('/urls');
+  if (currentUser === urlDatabase[id].userID) {
+    console.log('Edit working!!!!!');
+    urlDatabase[id][id] = editedURL;
+    res.status(200).redirect('/urls');
+  } else {
+    res.status(401).send('status : 401 :  Not authorized to edit');
+  }
 });
 
 // login
