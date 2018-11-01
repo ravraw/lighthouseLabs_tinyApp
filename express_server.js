@@ -57,7 +57,17 @@ app.get('/urls', (req, res) => {
   res.render('urls_index', templateVars);
 });
 app.get('/urls/new', (req, res) => {
-  res.render('urls_new');
+  const { user_id } = req.cookies;
+  const user = users[user_id];
+  console.log(req.cookies);
+  let templateVars = {
+    user
+  };
+  if (user) {
+    res.render('urls_new', templateVars);
+  } else {
+    res.status(401).redirect('/login');
+  }
 });
 
 app.get('/u/:shortURL', (req, res) => {
@@ -125,7 +135,7 @@ app.post('/login', (req, res) => {
   const { email, password } = req.body;
   let user_id;
   for (let key in users) {
-    console.log('From LOgin :', users[key].email, users[key].password);
+    console.log('From Login :', users[key].email, users[key].password);
     if (users[key].email === email && users[key].password === password) {
       user_id = key;
     }
