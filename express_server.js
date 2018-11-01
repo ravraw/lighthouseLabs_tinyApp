@@ -52,6 +52,10 @@ app.get('/urls/:id', (req, res) => {
   res.render('urls_show', templateVars);
 });
 
+app.get('/register', (req, res) => {
+  res.render('register');
+});
+
 app.get('/hello', (req, res) => {
   res.send('<html><body>Hello <b>World</b></body></html>\n');
 });
@@ -95,6 +99,11 @@ app.post('/login', (req, res) => {
 app.post('/logout', (req, res) => {
   res.clearCookie('username');
   res.status(200).redirect('/urls');
+});
+
+// register
+app.post('/register', (req, res) => {
+  res.render('register');
 });
 
 app.listen(PORT, () => {
