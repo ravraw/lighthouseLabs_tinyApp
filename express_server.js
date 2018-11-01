@@ -55,14 +55,26 @@ app.get('/', (req, res) => {
 app.get('/urls.json', (req, res) => {
   res.json(urlDatabase);
 });
+// function to filter urls
+const urlsForUser = id => {
+  let usersURLS = {};
+  for (let key in urlDatabase) {
+    if (urlDatabase[key].userID === id) {
+      usersURLS[key] = urlDatabase[key];
+    }
+  }
+  return usersURLS;
+};
 
 app.get('/urls', (req, res) => {
   let user_id = req.cookies.user_id;
   let currentUser = users[user_id];
+  let usersURLS = urlsForUser(user_id);
   let templateVars = {
     user_id,
     currentUser,
     urls: urlDatabase,
+    usersURLS,
     users: users
   };
   //console.log(templateVars);

@@ -15,18 +15,20 @@
 <h1>URLS</h1>
   <ul> 
   <% if ( currentUser ){ %>
-  <% for(let key in usersURLS){ %>
-  <li>Created by "<%= currentUser.email %>" <br>ShortURL : <%= key %> <br>  longURL : <%= usersURLS[key][key] %>
+    <% for(let key in urls){ %>
+    <% if(currentUser.id === urls[key].userID){ %>
+  <li>Created by "<%= users[urls[key].userID].email %>" <br>ShortURL : <%= key %> <br>  longURL : <%= urls[key][key] %>
      <br>
-    
+      
       <form method="POST" action="/urls/<%= key %>/delete"> 
    <a href="/urls/<%= key %>"> Edit </a> 
         <input type="submit" value="Delete">  
       </form>
       </li> 
-      <span>--------------------------------------------------------</span>   
+      <span>--------------------------------------------------------</span>
    <% } %>
-    <% } else{ %>
+   <% } %>
+    <% } else {%>
     <p>PLEASE LOGIN OR REGISTER TO SEE URLS</p>
     <% }%>
   </ul>
