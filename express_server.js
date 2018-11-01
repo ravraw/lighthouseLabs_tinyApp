@@ -57,7 +57,7 @@ app.get('/urls.json', (req, res) => {
 });
 
 app.get('/urls', (req, res) => {
-  let user_id = req.cookies['user_id'];
+  let user_id = req.cookies.user_id;
   let currentUser = users[user_id];
   let templateVars = {
     user_id,
@@ -91,14 +91,14 @@ app.get('/u/:shortURL', (req, res) => {
 });
 
 app.get('/urls/:id', (req, res) => {
-  let user_id = req.cookies['user_id'];
+  let currentUser = req.cookies['user_id'];
   let shortURL = req.params.id;
-  let user = users[user_id];
+  //let user = users[user_id];
   //console.log(user);
   let templateVars = {
     shortURL,
     longURL: urlDatabase[shortURL][shortURL],
-    user_id,
+    currentUser,
     users
   };
   res.render('urls_show', templateVars);
@@ -134,7 +134,8 @@ app.post('/urls', (req, res) => {
 // delete url
 app.post('/urls/:id/delete', (req, res) => {
   let { id } = req.params;
-  let currentUser = req.cookies(userID);
+  let currentUser = req.cookies.user_id;
+  console.log(req.cookies.user_id);
   if (urlDatabase[id]) {
     delete urlDatabase[id];
     res.status(200).redirect('/urls');
@@ -147,7 +148,7 @@ app.post('/urls/:id/delete', (req, res) => {
 app.post('/urls/:id', (req, res) => {
   const { id } = req.params;
   const { editedURL } = req.body;
-  urlDatabase[id] = editedURL;
+  urlDatabase[id][id] = editedURL;
   res.status(200).redirect('/urls');
 });
 
