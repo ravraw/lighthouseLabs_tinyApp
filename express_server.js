@@ -41,7 +41,14 @@ app.get('/urls.json', (req, res) => {
 });
 
 app.get('/urls', (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies['username'] };
+  let user_id = req.cookies['user_id'];
+  let user = users[user_id];
+  console.log({ user_id, user }, users);
+  let templateVars = {
+    urls: urlDatabase,
+    user_id,
+    user
+  };
   res.render('urls_index', templateVars);
 });
 app.get('/urls/new', (req, res) => {
@@ -56,10 +63,13 @@ app.get('/u/:shortURL', (req, res) => {
 });
 
 app.get('/urls/:id', (req, res) => {
+  let user_id = req.cookies['user_id'];
+  let user = users[user_id];
   let templateVars = {
     shortURL: req.params.id,
     longURL: urlDatabase[req.params.id],
-    username: req.cookies['username']
+    user_id,
+    user
   };
   res.render('urls_show', templateVars);
 });
@@ -102,25 +112,51 @@ app.post('/urls/:id', (req, res) => {
 
 // login
 app.post('/login', (req, res) => {
-  let { username } = req.body;
-  res.cookie('username', username);
+  //let { user_id } = req.body;
+  let user_id = randomUrls.randomUrl();
+  res.cookie('user_id', user_id);
   res.status(200).redirect('/urls');
 });
 
 // logout
 app.post('/logout', (req, res) => {
-  res.clearCookie('username');
+  res.clearCookie('user_id');
   res.status(200).redirect('/urls');
 });
 
 // register
 app.post('/register', (req, res) => {
   const { email, password } = req.body;
-  const id = randomUrls.randomUrl();
-  const user = { id, email, password };
-  users[id] = user;
-  res.cookie('user_id', id);
-  res.status(201).redirect('/urls');
+  const user_id = randomUrls.randomUrl();
+  const user = { user_id, email, password };
+  let emailAvailable;
+
+  for (let key in users) {
+    if (users[key].email === email) {
+      emailAvailable = false;
+    } else {
+      emailAvailable = true;
+    }
+  }
+
+  if (!emailAvailable) {
+    res.status(400).send('status: 400 : Email not available');
+  }
+
+  if (!email || !password) {
+    res.status(400).send('status: 400 : Provide Email and password');
+  }
+
+  if (users[user_id]) {
+    res.status(400).send('status: 400 : Bad request');
+  } else {
+    users[user_id] = user;
+    console.log(users);
+    res.cookie('user_id', user_id);
+    console.log('good');
+    console.log(users);
+    res.status(201).redirect('/urls');
+  }
 });
 
 app.listen(PORT, () => {
