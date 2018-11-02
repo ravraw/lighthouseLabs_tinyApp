@@ -20,4 +20,3 @@ const urlsForUser = (id, data) => {
 };
 module.exports.randomUrl = generateRandomString;
 module.exports.urlsForUser = urlsForUser;
-//console.log(generateRandomString());

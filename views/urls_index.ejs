@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <title>TinyApp</title>
-   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
@@ -22,7 +21,7 @@
   <li>Created by "<%= currentUser.email %>" <br>ShortURL : <%= key %> <br>  longURL : <%= usersURLS[key][key] %>
      <br>
     
-      <form method="POST" action="/urls/<%= key %>/delete"> 
+      <form method="POST" action="/urls/<%= key %>/delete?_method=DELETE"> 
    <a href="/urls/<%= key %>"> Edit </a> 
         <input type="submit" value="Delete">  
       </form>

@@ -3,6 +3,7 @@ const express = require('express');
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 
 // initiate the App
 const app = express();
@@ -14,6 +15,8 @@ const PORT = 8080;
 const helperFunctions = require('./helperFunctions');
 
 // Middlewares
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cookieSession({
@@ -28,6 +31,7 @@ app.use(
 //view engine - ejs
 app.set('view engine', 'ejs');
 
+// urls database
 const urlDatabase = {
   b2xVn2: {
     userID: '1',
@@ -43,6 +47,7 @@ const urlDatabase = {
   }
 };
 
+// users database
 const users = {
   '1': {
     id: '1',
@@ -66,7 +71,7 @@ const users = {
 
 // ============= GET REQUESTS ==================== //
 
-// root route
+// root route ("/")
 app.get('/', (req, res) => {
   const user_id = req.session.user_id;
   if (user_id) {
@@ -75,11 +80,6 @@ app.get('/', (req, res) => {
     req.session = null;
     res.redirect('/login');
   }
-});
-
-// return urldatabase as json
-app.get('/urls.json', (req, res) => {
-  res.json(urlDatabase);
 });
 
 // main urls page
@@ -117,7 +117,7 @@ app.get('/u/:shortURL', (req, res) => {
   const longURL = urlDatabase[shortURL][shortURL];
   if (longURL) {
     res.status(302).redirect(longURL);
-  } else res.status(404).send('status: 404 : Requested path not found');
+  } else res.status(404).render('404');
 });
 
 // Route to update urls
@@ -164,7 +164,9 @@ app.post('/urls', (req, res) => {
 });
 
 // route to delete a url
-app.post('/urls/:id/delete', (req, res) => {
+//app.post('/urls/:id/delete', (req, res) => {
+//app.post('/urls/:id/delete?_method=DELETE', (req, res) => {
+app.delete('/urls/:id/delete', (req, res) => {
   const { id } = req.params;
   const currentUser = req.session.user_id;
   if (currentUser === urlDatabase[id].userID) {
@@ -175,8 +177,10 @@ app.post('/urls/:id/delete', (req, res) => {
   }
 });
 
-//route to  update longURL
-app.post('/urls/:id', (req, res) => {
+// route to  update longURL
+//app.post('/urls/:id', (req, res) => {
+//app.post('/urls/:id?_method=PUT', (req, res) => {
+app.put('/urls/:id', (req, res) => {
   const currentUser = req.session.user_id;
   const { id } = req.params;
   const { editedURL } = req.body;
@@ -188,7 +192,7 @@ app.post('/urls/:id', (req, res) => {
   }
 });
 
-// login
+//  route login a user
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   let user_id;
@@ -209,13 +213,13 @@ app.post('/login', (req, res) => {
   }
 });
 
-// logout
+// route to logout a user
 app.post('/logout', (req, res) => {
   req.session = null;
   res.status(200).redirect('/');
 });
 
-// register
+// route to register a user , check if id,email are avialabe ,and email and password fields are not let empty by user .
 app.post('/register', (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
@@ -248,6 +252,13 @@ app.post('/register', (req, res) => {
   }
 });
 
+// catch all 404 routes
+// app.get('*', function(req, res) {
+//   console.log('404ing');
+//   res.render('404');
+// });
+
+// app listening on default port
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });

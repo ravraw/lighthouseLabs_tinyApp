@@ -8,10 +8,8 @@
 <% include ./partials/_header %>
 </header>
     <!-- Add your EJS code here -->
-
    <h1>ShortURL: <%= shortURL %></h1>
-
- <form action="/urls/<%= shortURL%>" method="POST" >
+ <form action="/urls/<%= shortURL%>?_method=PUT" method="POST" >
       <input id="editedURL" type="text" name="editedURL" value=<%= longURL %> style="width:400px;height:25px;font-size:20px;">
       <input type="submit" value="Update" style="width:100px;height:25px;font-size:100px;">
  </form>
