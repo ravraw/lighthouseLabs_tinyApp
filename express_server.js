@@ -1,10 +1,22 @@
 const express = require('express');
 const cookieSession = require('cookie-session');
-//const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const app = express();
 const PORT = 8080; // default port 8080
 const bodyParser = require('body-parser');
+
+// functions
+const randomUrls = require('./generateRandomString');
+// function to filter urls
+const urlsForUser = id => {
+  let usersURLS = {};
+  for (let key in urlDatabase) {
+    if (urlDatabase[key].userID === id) {
+      usersURLS[key] = urlDatabase[key];
+    }
+  }
+  return usersURLS;
+};
 
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,11 +29,6 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   })
 );
-
-//app.use(cookieParser());
-//app.use(cookieSession());
-
-const randomUrls = require('./generateRandomString');
 
 //view engine - ejs
 app.set('view engine', 'ejs');
@@ -57,30 +64,30 @@ const users = {
   '3': {
     id: '3',
     email: 'r@r.com',
-    hashedPassword: 'ravraw'
+    hashedPassword:
+      '$2b$10$dH/5jBasDC8om5BwgzCzSeTmeUOeC1hfIFYGWXQiKuqAJbb16AUQ6' //rav123
   }
 };
 
 // ============= GET REQUESTS ==================== //
 
+// root route
 app.get('/', (req, res) => {
-  res.send('Hello!');
+  let user_id = req.session.user_id;
+  if (user_id) {
+    res.redirect('/urls');
+  } else {
+    req.session = null;
+    res.redirect('/login');
+  }
 });
 
+// return urldatabase as json
 app.get('/urls.json', (req, res) => {
   res.json(urlDatabase);
 });
-// function to filter urls
-const urlsForUser = id => {
-  let usersURLS = {};
-  for (let key in urlDatabase) {
-    if (urlDatabase[key].userID === id) {
-      usersURLS[key] = urlDatabase[key];
-    }
-  }
-  return usersURLS;
-};
 
+// main page
 app.get('/urls', (req, res) => {
   // let user_id = req.cookies.user_id;
   let user_id = req.session.user_id;
@@ -97,11 +104,8 @@ app.get('/urls', (req, res) => {
   res.render('urls_index', templateVars);
 });
 app.get('/urls/new', (req, res) => {
-  //const { user_id } = req.cookies;
   const { user_id } = req.session;
   const currentUser = users[user_id];
-  //console.log('cookie:', req.cookies);
-  //console.log(urlDatabase);
   let templateVars = {
     currentUser
   };
@@ -121,18 +125,18 @@ app.get('/u/:shortURL', (req, res) => {
 });
 
 app.get('/urls/:id', (req, res) => {
-  //let currentUser = req.cookies['user_id'];
-  let currentUser = req.session.user_id;
+  // let currentUser = req.session.user_id;
+  let user_id = req.session.user_id;
+  let currentUser = users[user_id];
   let shortURL = req.params.id;
-  //let user = users[user_id];
-  //console.log(user);
   let templateVars = {
     shortURL,
-    longURL: urlDatabase[shortURL][shortURL],
     currentUser,
-    users
+    users,
+    longURL: urlDatabase[shortURL][shortURL]
   };
-  if (currentUser === urlDatabase[shortURL].userID) {
+  console.log(templateVars);
+  if (user_id === urlDatabase[shortURL].userID) {
     res.render('urls_show', templateVars);
   } else {
     res.status(401).send('Not authorized to change others urls');
@@ -223,7 +227,7 @@ app.post('/login', (req, res) => {
 
 // logout
 app.post('/logout', (req, res) => {
-  //res.clearCookie('user_id');
+  req.session = null;
   res.status(200).redirect('/');
 });
 
