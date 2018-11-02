@@ -9,5 +9,15 @@ const generateRandomString = () => {
   }
   return randomString;
 };
+const urlsForUser = (id, data) => {
+  let usersURLS = {};
+  for (let key in data) {
+    if (data[key].userID === id) {
+      usersURLS[key] = data[key];
+    }
+  }
+  return usersURLS;
+};
 module.exports.randomUrl = generateRandomString;
+module.exports.urlsForUser = urlsForUser;
 //console.log(generateRandomString());

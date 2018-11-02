@@ -1,22 +1,17 @@
+// dependencies
 const express = require('express');
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
-const app = express();
-const PORT = 8080; // default port 8080
 const bodyParser = require('body-parser');
 
+// initiate the App
+const app = express();
+
+// default port 8080
+const PORT = 8080;
+
 // functions
-const randomUrls = require('./generateRandomString');
-// function to filter urls
-const urlsForUser = id => {
-  let usersURLS = {};
-  for (let key in urlDatabase) {
-    if (urlDatabase[key].userID === id) {
-      usersURLS[key] = urlDatabase[key];
-    }
-  }
-  return usersURLS;
-};
+const helperFunctions = require('./helperFunctions');
 
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -73,7 +68,7 @@ const users = {
 
 // root route
 app.get('/', (req, res) => {
-  let user_id = req.session.user_id;
+  const user_id = req.session.user_id;
   if (user_id) {
     res.redirect('/urls');
   } else {
@@ -87,26 +82,26 @@ app.get('/urls.json', (req, res) => {
   res.json(urlDatabase);
 });
 
-// main page
+// main urls page
 app.get('/urls', (req, res) => {
-  // let user_id = req.cookies.user_id;
-  let user_id = req.session.user_id;
-  let currentUser = users[user_id];
-  let usersURLS = urlsForUser(user_id);
-  let templateVars = {
+  const user_id = req.session.user_id;
+  const currentUser = users[user_id];
+  const usersURLS = helperFunctions.urlsForUser(user_id, urlDatabase);
+  const templateVars = {
     user_id,
     currentUser,
     urls: urlDatabase,
     usersURLS,
     users: users
   };
-  //console.log(templateVars);
   res.render('urls_index', templateVars);
 });
+
+// route to create new urls
 app.get('/urls/new', (req, res) => {
   const { user_id } = req.session;
   const currentUser = users[user_id];
-  let templateVars = {
+  const templateVars = {
     currentUser
   };
   if (currentUser) {
@@ -116,26 +111,26 @@ app.get('/urls/new', (req, res) => {
   }
 });
 
+// route to redirect shortURLS to longURLS
 app.get('/u/:shortURL', (req, res) => {
-  let shortURL = req.params.shortURL;
-  let longURL = urlDatabase[shortURL][shortURL];
+  const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL][shortURL];
   if (longURL) {
     res.status(302).redirect(longURL);
   } else res.status(404).send('status: 404 : Requested path not found');
 });
 
+// Route to update urls
 app.get('/urls/:id', (req, res) => {
-  // let currentUser = req.session.user_id;
-  let user_id = req.session.user_id;
-  let currentUser = users[user_id];
-  let shortURL = req.params.id;
-  let templateVars = {
+  const user_id = req.session.user_id;
+  const currentUser = users[user_id];
+  const shortURL = req.params.id;
+  const templateVars = {
     shortURL,
     currentUser,
     users,
     longURL: urlDatabase[shortURL][shortURL]
   };
-  console.log(templateVars);
   if (user_id === urlDatabase[shortURL].userID) {
     res.render('urls_show', templateVars);
   } else {
@@ -143,42 +138,36 @@ app.get('/urls/:id', (req, res) => {
   }
 });
 
+// route to show register page
 app.get('/register', (req, res) => {
   res.render('register');
 });
 
+// route to show login page
 app.get('/login', (req, res) => {
   res.status(200).render('login');
 });
 
-app.get('/hello', (req, res) => {
-  res.send('<html><body>Hello <b>World</b></body></html>\n');
-});
-
 // ============= POST REQUESTS ==================== //
 
-// add new url
+// route to add new url
 app.post('/urls', (req, res) => {
-  // let currentUser = req.cookies.user_id;
-  let currentUser = req.session.user_id;
-  let { longURL } = req.body;
-  let random = randomUrls.randomUrl();
-  let newURL = {
+  const currentUser = req.session.user_id;
+  const { longURL } = req.body;
+  const random = helperFunctions.randomUrl();
+  const newURL = {
     userID: currentUser,
     [random]: longURL
   };
   urlDatabase[random] = newURL;
-  res.status(201).redirect(`/urls`); // Respond with 'Ok' (we will replace this)
+  res.status(201).redirect(`/urls`);
 });
 
-// delete url
+// route to delete a url
 app.post('/urls/:id/delete', (req, res) => {
-  let { id } = req.params;
-  //let currentUser = req.cookies.user_id;
-  let currentUser = req.session.user_id;
-  //console.log(req.cookies.user_id);
+  const { id } = req.params;
+  const currentUser = req.session.user_id;
   if (currentUser === urlDatabase[id].userID) {
-    console.log('Delete working !!!!!');
     delete urlDatabase[id];
     res.status(200).redirect('/urls');
   } else {
@@ -186,14 +175,12 @@ app.post('/urls/:id/delete', (req, res) => {
   }
 });
 
-// update longURL
+//route to  update longURL
 app.post('/urls/:id', (req, res) => {
-  //const currentUser = req.cookies.user_id;
   const currentUser = req.session.user_id;
   const { id } = req.params;
   const { editedURL } = req.body;
   if (currentUser === urlDatabase[id].userID) {
-    console.log('Edit working!!!!!');
     urlDatabase[id][id] = editedURL;
     res.status(200).redirect('/urls');
   } else {
@@ -205,10 +192,8 @@ app.post('/urls/:id', (req, res) => {
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   let user_id;
-  //console.log(users[key].password);
   for (let key in users) {
     let userPassword = users[key].hashedPassword;
-    console.log(users[key].hashedPassword);
     if (
       users[key].email === email &&
       bcrypt.compareSync(password, userPassword)
@@ -217,7 +202,6 @@ app.post('/login', (req, res) => {
     }
   }
   if (user_id) {
-    //res.cookie('user_id', user_id);
     req.session.user_id = user_id;
     res.status(200).redirect('/');
   } else {
@@ -235,9 +219,8 @@ app.post('/logout', (req, res) => {
 app.post('/register', (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
-  const user_id = randomUrls.randomUrl();
+  const user_id = helperFunctions.randomUrl();
   const user = { user_id, email, hashedPassword };
-  console.log(user);
   let emailAvailable;
 
   for (let key in users) {
@@ -260,11 +243,7 @@ app.post('/register', (req, res) => {
     res.status(400).send('status: 400 : Bad request');
   } else {
     users[user_id] = user;
-    //console.log(users);
-    //res.cookie('user_id', user_id);
     req.session.user_id = user_id;
-    // console.log('good');
-    console.log(users);
     res.status(201).redirect('/urls');
   }
 });

@@ -6,13 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <title>TinyApp</title>
+   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
 <% include ./partials/_header%>
 </header>
     <!-- Add your EJS code here -->
-<h1>URLS</h1>
+<main >
+    <h2>URLS</h2>
 <h4><a href= "/urls/new"> Create new shortURL</a></h4>
   <ul> 
   <% if ( currentUser ){ %>
@@ -32,5 +34,7 @@
     <p>PLEASE LOGIN OR REGISTER TO SEE URLS</p>
     <% }%>
   </ul>
+</main>
+<hr>
 </body>
 </html>

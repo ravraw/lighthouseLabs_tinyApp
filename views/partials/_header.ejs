@@ -1,15 +1,26 @@
 
 
-<h1>TINY APP</h1
+
+<h1>TINY APP</h1>
+
 <% if( currentUser){ %>
-<h1>Logged-in as <%= currentUser.email %></h1>
+<div>
+<p>Logged-in as <%= currentUser.email %></p>
  <p> <form method="POST" action="/logout">
    <input type="submit" value="Logout">  
  </form> </P>
+ </div>
 <% } else { %>
 <h2><a href="/login">LOGIN</a> | <a href="/register">REGISTER</a> </h2>
 <% } %>
 <hr>
+
+
+
+
+
+
+
 
  
  
