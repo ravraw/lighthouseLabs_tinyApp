@@ -35,15 +35,18 @@ app.set('view engine', 'ejs');
 const urlDatabase = {
   b2xVn2: {
     userID: '1',
-    b2xVn2: 'http://www.lighthouselabs.ca'
+    b2xVn2: 'http://www.lighthouselabs.ca',
+    views: 0
   },
   '9sm5xK': {
     userID: '2',
-    '9sm5xK': 'http://www.google.com'
+    '9sm5xK': 'http://www.google.com',
+    views: 0
   },
   XXXxxx: {
     userID: '3',
-    XXXxxx: 'http://www.ravraw.io'
+    XXXxxx: 'http://www.ravraw.io',
+    views: 0
   }
 };
 
@@ -117,6 +120,8 @@ app.get('/u/:shortURL', (req, res) => {
   const longURL = urlDatabase[shortURL][shortURL];
   if (longURL) {
     res.status(302).redirect(longURL);
+    urlDatabase[shortURL].views++;
+    console.log(urlDatabase);
   } else res.status(404).render('404');
 });
 
