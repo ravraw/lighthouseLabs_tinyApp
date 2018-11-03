@@ -8,7 +8,7 @@
 <% include ./partials/_header %>
 </header>
     <!-- Add your EJS code here -->
-   <h1>ShortURL: <%= shortURL %></h1>
+   <h1>ShortURL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></h1>
  <form action="/urls/<%= shortURL%>?_method=PUT" method="POST" >
       <input id="editedURL" type="text" name="editedURL" value=<%= longURL %> style="width:400px;height:25px;font-size:20px;">
       <input type="submit" value="Update" style="width:100px;height:25px;font-size:100px;">
@@ -17,6 +17,9 @@
  <hr>
  <h2>VISITERS LOG</h2>
  <ul>
+ if(){
+
+ }
   <% urlDatabase[shortURL].visiterLog.forEach(item=>{ %>
     <li> 
     <p> <strong>Vister Id  : <%= item.id %></strong><br>Visited at : <%= item.visitedOn %> </p> 
