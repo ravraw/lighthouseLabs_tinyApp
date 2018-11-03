@@ -6,35 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <title>TinyApp</title>
+  
+   <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body>
-<header>
-<% include ./partials/_header%>
-</header>
+<div class = "container">
+  <% include ./partials/_header%>
     <!-- Add your EJS code here -->
-<main >
+  <main >
     <h2>URLS</h2>
-<h4><a href= "/urls/new"> Create new shortURL</a></h4>
-  <ul> 
-  <% if ( currentUser ){ %>
-  <% for(let key in usersURLS){ %>
-  <li>Created by "<%= currentUser.email %>" <br>ShortURL :<a href="/u/<%= key %>"> <%= key %></a> <br>  longURL : <%= usersURLS[key][key] %>
-     <br>Views :<%= usersURLS[key].views %><br>
-     Unique views :<%= usersURLS[key].uniqueViews.length %><br>
-    
-      <form method="POST" action="/urls/<%= key %>/delete?_method=DELETE"> 
-   <a href="/urls/<%= key %>"> Edit </a> 
-        <input type="submit" value="Delete">  
-      </form>
+    <h4><a href= "/urls/new"> Create new shortURL</a></h4>
+    <ul> 
+      <% if ( currentUser ){ %>
+      <% for(let key in usersURLS){ %>
+      <li>Created by "<%= currentUser.email %>" <br>ShortURL    :<a href="/u/<%= key %>"> <%= key %></a> <br>          longURL : <%= usersURLS[key][key] %>
+          <br>Views :<%= usersURLS[key].views %><br>
+          Unique views :<%= usersURLS[key].uniqueViews.length %><br>
+         <form method="POST" action="/urls/<%= key %>/delete?_method=DELETE"> 
+          <a href="/urls/<%= key %>"> Edit </a> 
+          <input type="submit" value="Delete">  
+        </form>
       </li> 
       <span>--------------------------------------------------------</span>   
-   <% } %>
-
+   `<% } %>
+    </ul>
     <% } else{ %>
     <p>PLEASE LOGIN OR REGISTER TO SEE URLS</p>
     <% }%>
-  </ul>
-</main>
-<hr>
+  </main>
+  <% include ./partials/_footer%>
+</div>
 </body>
 </html>

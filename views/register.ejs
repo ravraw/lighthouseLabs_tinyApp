@@ -5,21 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <title>TinyApp</title>
+     <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body>
-
-
+<header>
+    <div class="logo-box">
+      <img src="../../public/assets/logo.png" alt="logo" class="logo"> 
+    </div>
+      <nav class="navbar">
+    <div>
+      <ul class = "navbar__list navbar__list--loggedout">
+        <li class="navbar__item"><a href="/login">LOGIN</a></li>
+        <li class="navbar__item"><a href="/register">REGISTER</a></li> 
+      </ul>
+  </navbar>
+</header> 
+<main>
     <!-- Add your EJS code here -->
-  <p>REGISTER</p>
-  <hr>
- <form method="POST" action="/register">
- <label for="email">Email :</label><br>
- <input  id="email" type="email" name="email" placeholder = "Username..."><br>
-  <label for="password">Password :</label><br>
- <input id="password" type ="password" name="password" placeholder ="Password..."><br>
- <input type="submit" value="Register">  
- <a href="/login">Login</a> 
-  </form>
+  <div class="register">
+    <div class="register__form">
+      <p>REGISTER</p>
+      <hr>
+        <form method="POST" action="/register">
+          <label for="email">Email :</label><br>
+          <input  id="email" type="email" name="email" placeholder = "Username..."><br>
+          <label for="password">Password :</label><br>
+          <input id="password" type ="password" name="password" placeholder ="Password..."><br>
+          <input type="submit" value="Register">  
+          <a href="/login">Login</a> 
+        </form>
+    </div>
+  </div>
+</main>
+<% include ./partials/_footer%>
 </body>
 </html>
 

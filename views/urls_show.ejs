@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
   <title>TinyApp</title>
+   <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 <body>
 <header>
 <% include ./partials/_header %>
 </header>
+<main>
     <!-- Add your EJS code here -->
    <h1>ShortURL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></h1>
  <form action="/urls/<%= shortURL%>?_method=PUT" method="POST" >
@@ -17,9 +20,7 @@
  <hr>
  <h2>VISITERS LOG</h2>
  <ul>
- if(){
 
- }
   <% urlDatabase[shortURL].visiterLog.forEach(item=>{ %>
     <li> 
     <p> <strong>Vister Id  : <%= item.id %></strong><br>Visited at : <%= item.visitedOn %> </p> 
@@ -27,6 +28,8 @@
   <% })%>
 
  </ul>
+ </main>
+   <% include ./partials/_footer%>
 
 </body>
 </html>

@@ -18,15 +18,15 @@ const app = express();
 const PORT = 8080;
 
 // Middlewares
-// override with POST having ?_method=DELETE
+app.use('/public', express.static('public'));
 app.use(cookieParser());
+// override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cookieSession({
     name: 'session',
     keys: ['qwertyu', 'ertyui'],
-
     // Cookie Options
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   })

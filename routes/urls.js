@@ -86,19 +86,6 @@ router.post('/', (req, res) => {
   res.status(201).redirect(`/urls`);
 });
 
-// route to delete a url
-//router : '/urls/:id/delete'
-router.delete('/:id/delete', (req, res) => {
-  const { id } = req.params;
-  const currentUser = req.session.user_id;
-  if (currentUser === urlDatabase[id].userID) {
-    delete urlDatabase[id];
-    res.status(200).redirect('/urls');
-  } else {
-    res.status(401).send('status : 401 : Not authorized to delte');
-  }
-});
-
 // route to  update longURL
 // route :'/urls/:id'
 router.put('/:id', (req, res) => {
@@ -110,6 +97,19 @@ router.put('/:id', (req, res) => {
     res.status(200).redirect('/urls');
   } else {
     res.status(401).send('status : 401 :  Not authorized to edit');
+  }
+});
+
+// route to delete a url
+//router : '/urls/:id/delete'
+router.delete('/:id/delete', (req, res) => {
+  const { id } = req.params;
+  const currentUser = req.session.user_id;
+  if (currentUser === urlDatabase[id].userID) {
+    delete urlDatabase[id];
+    res.status(200).redirect('/urls');
+  } else {
+    res.status(401).send('status : 401 : Not authorized to delte');
   }
 });
 

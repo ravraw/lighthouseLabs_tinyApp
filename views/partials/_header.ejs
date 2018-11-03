@@ -1,17 +1,26 @@
-
-<h1>TINY APP</h1>
-<% if( currentUser){ %>
-<div>
-<p>Logged-in as <%= currentUser.email %></p>
- <p> <form method="POST" action="/logout">
-   <input type="submit" value="Logout">  
- </form> </P>
- </div>
-<% } else { %>
-<h2><a href="/login">LOGIN</a> | <a href="/register">REGISTER</a> </h2>
-<% } %>
-<hr>
-
+<header>
+    <div class="logo-box">
+      <img src="../../public/assets/logo.png" alt="logo" class="logo"> 
+    </div>
+      <nav class="navbar">
+  <% if( currentUser){ %>
+      <ul class ="navbar__list navbar__list--loggedin">
+        <li class="navbar__item"> <%= currentUser.email %></li>
+        <li class="navbar__item"> 
+          <form method="POST" action="/logout">
+            <input class ="btn" type="submit" value="Logout">  
+          </form>
+        </li>
+      </ul>
+  <% } else { %>
+    <div>
+      <ul class = "navbar__list navbar__list--loggedout">
+        <li class="navbar__item"><a href="/login">LOGIN</a></li>
+        <li class="navbar__item"><a href="/register">REGISTER</a></li> 
+      </ul>
+  <% } %>
+  </navbar>
+</header>  
 
 
 
