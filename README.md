@@ -9,7 +9,7 @@ Screenshots will be added after adding style with CSS
 ## Dependencies
 
 - Node.js
-- -Express
+- Express
 - EJS
 - bcrypt
 - body-parser
