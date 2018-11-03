@@ -19,7 +19,8 @@
   <% if ( currentUser ){ %>
   <% for(let key in usersURLS){ %>
   <li>Created by "<%= currentUser.email %>" <br>ShortURL : <%= key %> <br>  longURL : <%= usersURLS[key][key] %>
-     <br>
+     <br>Views :<%= usersURLS[key].views %><br>
+     Unique views :<%= usersURLS[key].uniqueViews.length %><br>
     
       <form method="POST" action="/urls/<%= key %>/delete?_method=DELETE"> 
    <a href="/urls/<%= key %>"> Edit </a> 

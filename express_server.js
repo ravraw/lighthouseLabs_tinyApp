@@ -1,6 +1,7 @@
 // dependencies
 const express = require('express');
 const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 var methodOverride = require('method-override');
@@ -16,6 +17,7 @@ const helperFunctions = require('./helperFunctions');
 
 // Middlewares
 // override with POST having ?_method=DELETE
+app.use(cookieParser());
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
@@ -36,17 +38,98 @@ const urlDatabase = {
   b2xVn2: {
     userID: '1',
     b2xVn2: 'http://www.lighthouselabs.ca',
-    views: 0
+    views: 0,
+    visiterLog: [
+      {
+        id: 'werrt',
+        visitedOn: 'Fri Nov 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      },
+      {
+        id: '17srtu',
+        visitedOn: 'Fri Oct 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      }
+    ],
+    uniqueViews: []
   },
   '9sm5xK': {
     userID: '2',
     '9sm5xK': 'http://www.google.com',
-    views: 0
+    views: 0,
+    visiterLog: [
+      {
+        id: 'werrt',
+        visitedOn: 'Fri Nov 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      },
+      {
+        id: '17srtu',
+        visitedOn: 'Fri Oct 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      }
+    ],
+    uniqueViews: []
   },
   XXXxxx: {
     userID: '3',
     XXXxxx: 'http://www.ravraw.io',
-    views: 0
+    views: 0,
+    visiterLog: [
+      {
+        id: 'werrt',
+        visitedOn: 'Fri Nov 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      },
+      {
+        id: '17srtu',
+        visitedOn: 'Fri Oct 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      }
+    ],
+    uniqueViews: []
+  },
+  XYx156: {
+    userID: '1',
+    XYx156: 'http://www.yahoo.com',
+    views: 0,
+    visiterLog: [
+      {
+        id: 'werrt',
+        visitedOn: 'Fri Nov 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      },
+      {
+        id: '17srtu',
+        visitedOn: 'Fri Oct 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      }
+    ],
+    uniqueViews: []
+  },
+  XYx156: {
+    userID: '2',
+    XYx156: 'http://www.yahoo.com',
+    views: 0,
+    visiterLog: [
+      {
+        id: 'werrt',
+        visitedOn: 'Fri Nov 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      },
+      {
+        id: '17srtu',
+        visitedOn: 'Fri Oct 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      }
+    ],
+    uniqueViews: []
+  },
+  aw2d56: {
+    userID: '3',
+    aw2d56: 'http://www.amazon.com',
+    views: 0,
+    visiterLog: [
+      {
+        id: 'werrt',
+        visitedOn: 'Fri Nov 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      },
+      {
+        id: '17srtu',
+        visitedOn: 'Fri Oct 01 2018 12:41:38 GMT-0600 (Mountain Daylight Time)'
+      }
+    ],
+    uniqueViews: []
   }
 };
 
@@ -118,9 +201,32 @@ app.get('/urls/new', (req, res) => {
 app.get('/u/:shortURL', (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = urlDatabase[shortURL][shortURL];
+  const userCookie = req.session.uniqueUser;
+  const now = new Date();
+  //console.log(req.cookies);
+  const isUniqueUser = helperFunctions.isUnique(
+    urlDatabase[shortURL].uniqueViews,
+    userCookie
+  );
+
   if (longURL) {
-    res.status(302).redirect(longURL);
     urlDatabase[shortURL].views++;
+    if (!isUniqueUser) {
+      const random = helperFunctions.randomUrl();
+      req.session.uniqueUser = random;
+      urlDatabase[shortURL].uniqueViews.push(random);
+      let visiter = {
+        id: random,
+        visitedOn: new Date()
+      };
+      urlDatabase[shortURL].visiterLog.push(visiter);
+      console.log('new user !!!!!!!');
+    } else {
+      let visiter = { id: req.session.uniqueUser, visitedOn: new Date() };
+      urlDatabase[shortURL].visiterLog.push(visiter);
+      console.log('old user @@@@@@@@', req.session.uniqueUser);
+    }
+    res.status(302).redirect(longURL);
     console.log(urlDatabase);
   } else res.status(404).render('404');
 });
@@ -133,6 +239,7 @@ app.get('/urls/:id', (req, res) => {
   const templateVars = {
     shortURL,
     currentUser,
+    urlDatabase,
     users,
     longURL: urlDatabase[shortURL][shortURL]
   };
@@ -162,7 +269,9 @@ app.post('/urls', (req, res) => {
   const random = helperFunctions.randomUrl();
   const newURL = {
     userID: currentUser,
-    [random]: longURL
+    [random]: longURL,
+    views: 0,
+    uniqueViews: []
   };
   urlDatabase[random] = newURL;
   res.status(201).redirect(`/urls`);
@@ -267,3 +376,10 @@ app.post('/register', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+// ('session=eyJ1c2VyX2lkIjoiMyJ9; session.sig=ZplnNqOyHYVoSXaZoJ4Fjk8Gzt0');
+// 'session=eyJ1c2VyX2lkIjoiMyJ9; session.sig=ZplnNqOyHYVoSXaZoJ4Fjk8Gzt0';
+// session=eyJ1c2VyX2lkIjoiMSJ9; session.sig=2x7_gMbsnfSYZ_qxVg6xCl5ZAFk'
+('session=eyJ1c2VyX2lkIjoiMSJ9; session.sig=2x7_gMbsnfSYZ_qxVg6xCl5ZAFk');
+('session=eyJ1c2VyX2lkIjoiMSJ9; session.sig=2x7_gMbsnfSYZ_qxVg6xCl5ZAFk');
+('session=eyJ1c2VyX2lkIjoiMiJ9; session.sig=5dZCIMqaRDSB9Dx586FOvgWWOfw');
