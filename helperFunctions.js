@@ -1,4 +1,4 @@
-//generates random 6 char string for id
+//generates random 6 char string for id and cookie
 const generateRandomString = () => {
   var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let randomString = '';
@@ -22,7 +22,7 @@ const urlsForUser = (id, data) => {
   return usersURLS;
 };
 
-// check if current view is a unique view.
+// check if visiter  is a unique visiter.
 const isUnique = (arr, string) => {
   if (!string) return false;
   if (arr.length === 0) return false;
@@ -30,6 +30,8 @@ const isUnique = (arr, string) => {
   let result = arr.map(item => item === string);
   return result.length === 0;
 };
+
+//export
 module.exports.randomUrl = generateRandomString;
 module.exports.urlsForUser = urlsForUser;
 module.exports.isUnique = isUnique;
