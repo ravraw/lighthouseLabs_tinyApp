@@ -18,7 +18,7 @@
   <ul> 
   <% if ( currentUser ){ %>
   <% for(let key in usersURLS){ %>
-  <li>Created by "<%= currentUser.email %>" <br>ShortURL : <%= key %> <br>  longURL : <%= usersURLS[key][key] %>
+  <li>Created by "<%= currentUser.email %>" <br>ShortURL :<a href="/u/<%= key %>"> <%= key %></a> <br>  longURL : <%= usersURLS[key][key] %>
      <br>Views :<%= usersURLS[key].views %><br>
      Unique views :<%= usersURLS[key].uniqueViews.length %><br>
     
