@@ -63,6 +63,9 @@ header > * {
   color: #e67e22;
   text-decoration: none;
 }
+.user__email {
+  font-size: 3rem;
+}
 
 /* main style */
 main {
@@ -70,6 +73,134 @@ main {
   flex: 1;
   border: 3px solid #e67e22;
   border-radius: 10px;
+  overflow: scroll;
+}
+
+.collection__header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1em;
+}
+
+.collection__create {
+  text-decoration: none;
+  color: #fff;
+  padding: 5px 10px 5px 10px;
+  font-size: 1.2em;
+  background: #e67e22;
+  border: 2px solid#e67e22;
+  border-radius: 20px;
+}
+
+.urls__list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.urls__item {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  align-content: flex-start;
+  border-bottom: 2px solid gray;
+  margin: 10px;
+  list-style: none;
+  padding: 10px;
+}
+
+#urls__scroll {
+  overflow: hidden;
+}
+
+/* urls table : row items */
+
+.item__shortUrl {
+  flex: 2;
+}
+.item__longUrl {
+  flex: 6;
+}
+.item__views {
+  flex: 1;
+}
+.item__uniqueViews {
+  flex: 1;
+}
+.item__edit {
+  flex: 1;
+}
+.item__delete {
+  flex: 1;
+}
+
+/* edit url page */
+
+.edit__header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 10rem;
+  font-size: 3rem;
+  border-bottom: 2px solid black;
+  text-decoration: none;
+}
+.edit__form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit__form .edit__submit {
+  height: 2.5em;
+  font-size: 1.2rem;
+  margin-left: 20px;
+}
+
+.edit__input {
+  font-size: 3rem;
+  border: none;
+  border-bottom: 2px solid gray;
+  outline: none;
+  padding: 0.5rem 0 0.5rem 0;
+}
+
+/* visietrs log  */
+.visiters__log > h2 {
+  text-align: center;
+  padding: 1em 0;
+}
+
+.visiters__list {
+  display: flex;
+  flex-direction: column;
+}
+.visiters__detail {
+  margin: 15px;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+}
+
+.visiters__id {
+  flex: 2;
+}
+.visiters__time {
+  flex: 6;
+}
+
+/* new url page */
+
+.new__container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* login form page */
@@ -126,6 +257,17 @@ main {
 }
 
 /* button styles */
+
+.btn {
+  background-color: #e67e22;
+  height: 30px;
+  border-radius: 15px;
+  font-size: 1em;
+  padding: 0 20px 0 20px;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+}
 
 .btn:hover {
   outline: none;

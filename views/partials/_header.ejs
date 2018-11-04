@@ -5,7 +5,7 @@
       <nav class="navbar">
   <% if( currentUser){ %>
       <ul class ="navbar__list navbar__list--loggedin">
-        <li class="navbar__item"> <%= currentUser.email %></li>
+        <li class=" user__email navbar__item"> <%= currentUser.email %></li>
         <li class="navbar__item"> 
           <form method="POST" action="/logout">
             <input class ="btn" type="submit" value="Logout">  

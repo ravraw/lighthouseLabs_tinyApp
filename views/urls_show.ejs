@@ -11,23 +11,25 @@
 </header>
 <main>
     <!-- Add your EJS code here -->
-   <h1>ShortURL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></h1>
- <form action="/urls/<%= shortURL%>?_method=PUT" method="POST" >
-      <input id="editedURL" type="text" name="editedURL" value=<%= longURL %> style="width:400px;height:25px;font-size:20px;">
-      <input type="submit" value="Update" style="width:100px;height:25px;font-size:100px;">
+    <div class="edit__header">
+   <div>ShortURL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></div>
+ <form  class="edit__form"action="/urls/<%= shortURL%>?_method=PUT"   method="POST" >
+      <input class = "edit__input" id="editedURL" type="text" name="editedURL" value=<%= longURL %>>
+      <input class="btn edit__submit" type="submit" value="UPDATE" >
  </form>
- <br>
- <hr>
+ </div>
+<div class= "visiters__log">
  <h2>VISITERS LOG</h2>
- <ul>
-
+ <ul class="visiters__list">
+ <li  class="visiters__detail"><span class="visiters__id">VISITERS ID</span> <span class="visiters__time">VISITED AT</span> </l1>
   <% urlDatabase[shortURL].visiterLog.forEach(item=>{ %>
-    <li> 
-    <p> <strong>Vister Id  : <%= item.id %></strong><br>Visited at : <%= item.visitedOn %> </p> 
+    <li class="visiters__detail"> 
+    <span class="visiters__id"><%= item.id %></span> <span class="visiters__time"><%= item.visitedOn %></span> 
     </li>
   <% })%>
 
  </ul>
+ </div>
  </main>
    <% include ./partials/_footer%>
 
