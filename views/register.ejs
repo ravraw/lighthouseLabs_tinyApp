@@ -23,19 +23,14 @@
 </header> 
 <main>
     <!-- Add your EJS code here -->
-  <div class="register">
-    <div class="register__form">
-      <p>REGISTER</p>
-      <hr>
-        <form method="POST" action="/register">
-          <label for="email">Email :</label><br>
-          <input  id="email" type="email" name="email" placeholder = "Username..."><br>
-          <label for="password">Password :</label><br>
-          <input id="password" type ="password" name="password" placeholder ="Password..."><br>
-          <input type="submit" value="Register">  
-          <a href="/login">Login</a> 
+  <div class="register__container">
+
+        <form class="register__form" method="POST" action="/register">
+       <label>Register</label>
+          <input  class="register__item"  id="email" type="email" name="email" placeholder = "email">
+          <input  class="register__item" id="password" type ="password" name="password" placeholder ="password">
+          <input class="btn btn--submit" type="submit" value="Register">  
         </form>
-    </div>
   </div>
 </main>
 <% include ./partials/_footer%>

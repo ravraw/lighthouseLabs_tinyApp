@@ -29,7 +29,7 @@ body {
 /* header Styles */
 
 header {
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -46,7 +46,7 @@ header > * {
 }
 
 .navbar {
-  background: lightcoral;
+  background: #fff;
 }
 .navbar__list {
   display: flex;
@@ -59,28 +59,87 @@ header > * {
 .navbar__item {
   margin-right: 4em;
 }
+.navbar__item a {
+  color: #e67e22;
+  text-decoration: none;
+}
 
 /* main style */
 main {
   height: 70vh;
   flex: 1;
-  /* border: 1px solid red; */
+  border: 3px solid #e67e22;
+  border-radius: 10px;
 }
 
 /* login form page */
 
-.login,
-.register {
+.login__container,
+.register__container {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.login__form,
+.register__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 300px;
+  width: 300px;
+  border: 3px solid darkgrey;
+  border-radius: 10px;
+}
+
+.login__form label,
+.register__form label {
+  font-size: 1.5em;
+  text-align: center;
+  color: #e67e22;
+}
+
+.login__item,
+.register__item {
+  font-size: 1em;
+  color: gray;
+  height: 2em;
+  width: 90%;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #e67e22;
+}
+
+.login__form .btn--submit,
+.register__form .btn--submit {
+  width: 90%;
+  background-color: #e67e22;
+  height: 40px;
+  border-radius: 15px;
+  color: white;
+  font-size: 1em;
+  padding: 5px 0 5px 0;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* button styles */
+
+.btn:hover {
+  outline: none;
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.6);
+}
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
 
 /* footer styles */
 footer {
-  border-top: 1px solid black;
+  /* border-top: 1px solid black; */
   display: flex;
   justify-content: center;
   align-items: center;
