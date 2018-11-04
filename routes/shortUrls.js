@@ -37,7 +37,6 @@ router.get('/:shortURL', (req, res) => {
         id: random,
         visitedOn: new Date()
       };
-      console.log(urlDatabase[shortURL]);
       urlDatabase[shortURL].visiterLog.push(visiter);
     } else {
       let visiter = { id: req.session.uniqueUser, visitedOn: new Date() };
