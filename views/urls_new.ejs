@@ -1,26 +1,27 @@
-
-
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link href="/public/assets/styles.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
-<div class = "container">
-    <% include partials/_header %>
+<div class="container">
+  <% include partials/_header %>
     <main>
-    <div class="new__container">
-    <form action="/urls" method="POST" style="margin:150px;">
-      <input class="edit__input" id="longURL" type="text" name="longURL" value="http://" style="width: 500px">
-      <input class ="btn"type="submit" value="Submit">
-    </form>
-    </div>
-    </main>
-      <% include ./partials/_footer%>
+      <div class="new__container">
+        <form action="/urls" method="POST" style="margin:150px;">
+          <input class="edit__input" id="longURL" type="text" name="longURL" value="http://" style="width: 500px">
+          <input class="btn" type="submit" value="Submit">
+        </form>
       </div>
-  </body>
+    </main>
+    <% include ./partials/_footer%>
+</div>
+</body>
+
 </html>

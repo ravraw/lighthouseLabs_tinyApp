@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <title>TinyApp</title>
-   <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <title>TinyApp</title>
+  <link href="/public/assets/styles.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
-<body>
-<div class = "container">
-<header>
-    <div class="logo-box">
-      <img src="../../public/assets/logo.png" alt="logo" class="logo"> 
-    </div>
-      <nav class="navbar">
-    <div>
-      <ul class = "navbar__list navbar__list--loggedout">
-        <li class="navbar__item"><a href="/login">LOGIN</a></li>
-        <li class="navbar__item"><a href="/register">REGISTER</a></li> 
-      </ul>
-  </navbar>
-</header>  
- 
-    <!-- Add your EJS code here -->
-<main>
- 
-<div class="login__container">
 
-  <form class="login__form" method="POST" action="/login">
-    <label>Login</label>
-    <input class="login__item" id="email" type="email" name="email" placeholder = "email">
-    <input class="login__item" id="Password" type ="password" name="password" placeholder ="password">
-    <input class="btn btn--submit" type="submit" value="Submit"> 
-  </form>
-  </div>
-</main>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-box">
+        <img src="../../public/assets/logo.png" alt="logo" class="logo">
+      </div>
+      <nav class="navbar">
+        <div>
+          <ul class="navbar__list navbar__list--loggedout">
+            <li class="navbar__item">
+              <a href="/login">LOGIN</a>
+            </li>
+            <li class="navbar__item">
+              <a href="/register">REGISTER</a>
+            </li>
+          </ul>
+          </navbar>
+    </header>
+
+    <!-- Add your EJS code here -->
+    <main>
+
+      <div class="login__container">
+
+        <form class="login__form" method="POST" action="/login">
+          <label>Login</label>
+          <input class="login__item" id="email" type="email" name="email" placeholder="email">
+          <input class="login__item" id="Password" type="password" name="password" placeholder="password">
+          <input class="btn btn--submit" type="submit" value="Submit">
+        </form>
+      </div>
+    </main>
     <% include ./partials/_footer%>
+      </div>
   </div>
- </div>
 </body>
+
 </html>

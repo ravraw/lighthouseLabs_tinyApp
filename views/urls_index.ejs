@@ -1,55 +1,70 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <title>TinyApp</title>
-  
-   <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <title>TinyApp</title>
+
+  <link href="/public/assets/styles.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
+
 <body>
-<div class = "container">
-  <% include ./partials/_header%>
-    <!-- Add your EJS code here -->
-  <main >
-  <div class="collection">
-  <div class = "collection__header">
-  <h1>YOUR COLLECTION </h1> 
-  <a class=" collection__create" href="/urls/new">CREATE NEW </a>
+  <div class="container">
+    <% include ./partials/_header%>
+      <!-- Add your EJS code here -->
+      <main>
+        <div class="collection">
+          <div class="collection__header">
+            <h1>YOUR COLLECTION </h1>
+            <a class=" collection__create" href="/urls/new">CREATE NEW </a>
+          </div>
+          <ul class="urls__list">
+            <li class="urls__item">
+              <div class="item__shortUrl">SHORT URL </div>
+              <div class="item__longUrl">LONG URL </div>
+              <div class="item__views">TOTAL VIEWS </div>
+              <div class="item__uniqueViews">UNIQUE VIEWS </div>
+              <div class="item__edit">EDIT URL</div>
+              <div class="item__delete">DELETE URL</div>
+            </li>
+            <% if ( currentUser ){ %>
+              <div id="urls__scroll">
+                <% for(let key in usersURLS){ %>
+                  <li class="urls__item">
+                    <div class="item__shortUrl">
+                      <a href="/u/<%= key %>">
+                        <%= key %>
+                      </a>
+                    </div>
+                    <div class="item__longUrl">
+                      <%= usersURLS[key][key] %>
+                    </div>
+                    <div class="item__views">
+                      <%= usersURLS[key].views %>
+                    </div>
+                    <div class="item__uniqueViews">
+                      <%= usersURLS[key].uniqueViews.length %>
+                    </div>
+                    <div class="item__edit">
+                      <a href="/urls/<%= key %>"> Edit </a>
+                    </div>
+                    <form class="item__delete" method="POST" action="/urls/<%= key %>/delete?_method=DELETE">
+                      <input class="btn" type="submit" value="Delete">
+                    </form>
+                  </li>
+                  <% } %>
+              </div>
+          </ul>
+          <% } else{ %>
+            <p>PLEASE LOGIN OR REGISTER TO SEE URLS</p>
+            <% }%>
+        </div>
+      </main>
+      <% include ./partials/_footer%>
   </div>
-<ul class="urls__list">
-<li class="urls__item">
-       <div class="item__shortUrl">SHORT URL </div> 
-       <div class="item__longUrl">LONG URL </div>
-       <div class="item__views">TOTAL VIEWS </div>
-       <div class="item__uniqueViews">UNIQUE VIEWS </div>
-       <div class="item__edit">EDIT URL</div>
-       <div class="item__delete">DELETE URL</div></li>
-      <% if ( currentUser ){ %>
-      <div id="urls__scroll">
-      <% for(let key in usersURLS){ %>
-      <li class="urls__item">
-       <div class="item__shortUrl"><a href="/u/<%= key %>"> <%= key %></a></div> 
-        <div class="item__longUrl"><%= usersURLS[key][key] %></div>
-       <div class="item__views"><%= usersURLS[key].views %></div>
-      <div class="item__uniqueViews"><%= usersURLS[key].uniqueViews.length %></div>
-      <div class="item__edit"><a href="/urls/<%= key %>"> Edit </a> </div>
-       <form class="item__delete" method="POST" action="/urls/<%= key %>/delete?_method=DELETE"> 
-         <input class="btn" type="submit" value="Delete">  
-       </form>
-      </li>   
-   <% } %>
-   </div>
-    </ul>
-    <% } else{ %>
-    <p>PLEASE LOGIN OR REGISTER TO SEE URLS</p>
-    <% }%>
-    </div>
-  </main>
-  <% include ./partials/_footer%>
-</div>
 </body>
+
 </html>

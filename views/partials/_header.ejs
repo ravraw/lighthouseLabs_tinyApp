@@ -1,33 +1,29 @@
 <header>
-    <div class="logo-box">
-      <img src="../../public/assets/logo.png" alt="logo" class="logo"> 
-    </div>
-      <nav class="navbar">
-  <% if( currentUser){ %>
-      <ul class ="navbar__list navbar__list--loggedin">
-        <li class=" user__email navbar__item"> <%= currentUser.email %></li>
-        <li class="navbar__item"> 
+  <div class="logo-box">
+    <img src="../../public/assets/logo.png" alt="logo" class="logo">
+  </div>
+  <nav class="navbar">
+    <% if( currentUser){ %>
+      <ul class="navbar__list navbar__list--loggedin">
+        <li class=" user__email navbar__item">
+          <%= currentUser.email %>
+        </li>
+        <li class="navbar__item">
           <form method="POST" action="/logout">
-            <input class ="btn" type="submit" value="Logout">  
+            <input class="btn" type="submit" value="Logout">
           </form>
         </li>
       </ul>
-  <% } else { %>
-    <div>
-      <ul class = "navbar__list navbar__list--loggedout">
-        <li class=".btn-nav navbar__item"><a href="/login">LOGIN</a></li>
-        <li class=".btn-nav navbar__item"><a href="/register">REGISTER</a></li> 
-      </ul>
-  <% } %>
-  </navbar>
-</header>  
-
-
-
-
-
-
-
- 
- 
-
+      <% } else { %>
+        <div>
+          <ul class="navbar__list navbar__list--loggedout">
+            <li class=".btn-nav navbar__item">
+              <a href="/login">LOGIN</a>
+            </li>
+            <li class=".btn-nav navbar__item">
+              <a href="/register">REGISTER</a>
+            </li>
+          </ul>
+          <% } %>
+            </navbar>
+</header>

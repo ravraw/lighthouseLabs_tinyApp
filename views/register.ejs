@@ -1,39 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <title>TinyApp</title>
-     <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <title>TinyApp</title>
+  <link href="/public/assets/styles.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
+
 <body>
-<header>
+  <header>
     <div class="logo-box">
-      <img src="../../public/assets/logo.png" alt="logo" class="logo"> 
+      <img src="../../public/assets/logo.png" alt="logo" class="logo">
     </div>
-      <nav class="navbar">
-    <div>
-      <ul class = "navbar__list navbar__list--loggedout">
-        <li class="navbar__item"><a href="/login">LOGIN</a></li>
-        <li class="navbar__item"><a href="/register">REGISTER</a></li> 
-      </ul>
-  </navbar>
-</header> 
-<main>
+    <nav class="navbar">
+      <div>
+        <ul class="navbar__list navbar__list--loggedout">
+          <li class="navbar__item">
+            <a href="/login">LOGIN</a>
+          </li>
+          <li class="navbar__item">
+            <a href="/register">REGISTER</a>
+          </li>
+        </ul>
+        </navbar>
+  </header>
+  <main>
     <!-- Add your EJS code here -->
-  <div class="register__container">
+    <div class="register__container">
 
-        <form class="register__form" method="POST" action="/register">
-       <label>Register</label>
-          <input  class="register__item"  id="email" type="email" name="email" placeholder = "email">
-          <input  class="register__item" id="password" type ="password" name="password" placeholder ="password">
-          <input class="btn btn--submit" type="submit" value="Register">  
-        </form>
-  </div>
-</main>
-<% include ./partials/_footer%>
+      <form class="register__form" method="POST" action="/register">
+        <label>Register</label>
+        <input class="register__item" id="email" type="email" name="email" placeholder="email">
+        <input class="register__item" id="password" type="password" name="password" placeholder="password">
+        <input class="btn btn--submit" type="submit" value="Register">
+      </form>
+    </div>
+  </main>
+  <% include ./partials/_footer%>
 </body>
-</html>
 
+</html>

@@ -1,37 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>TinyApp</title>
-   <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link href="/public/assets/styles.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
+
 <body>
-<header>
-<% include ./partials/_header %>
-</header>
-<main>
+  <header>
+    <% include ./partials/_header %>
+  </header>
+  <main>
     <!-- Add your EJS code here -->
     <div class="edit__header">
-   <div>ShortURL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></div>
- <form  class="edit__form"action="/urls/<%= shortURL%>?_method=PUT"   method="POST" >
-      <input class = "edit__input" id="editedURL" type="text" name="editedURL" value=<%= longURL %>>
-      <input class="btn edit__submit" type="submit" value="UPDATE" >
- </form>
- </div>
-<div class= "visiters__log">
- <h2>VISITERS LOG</h2>
- <ul class="visiters__list">
- <li  class="visiters__detail"><span class="visiters__id">VISITERS ID</span> <span class="visiters__time">VISITED AT</span> </l1>
-  <% urlDatabase[shortURL].visiterLog.forEach(item=>{ %>
-    <li class="visiters__detail"> 
-    <span class="visiters__id"><%= item.id %></span> <span class="visiters__time"><%= item.visitedOn %></span> 
-    </li>
-  <% })%>
+      <div>ShortURL:
+        <a href="/u/<%= shortURL %>">
+          <%= shortURL %>
+        </a>
+      </div>
+      <form class="edit__form" action="/urls/<%= shortURL%>?_method=PUT" method="POST">
+        <input class="edit__input" id="editedURL" type="text" name="editedURL" value=<%=l ongURL %>>
+        <input class="btn edit__submit" type="submit" value="UPDATE">
+      </form>
+    </div>
+    <div class="visiters__log">
+      <h2>VISITERS LOG</h2>
+      <ul class="visiters__list">
+        <li class="visiters__detail">
+          <span class="visiters__id">VISITERS ID</span>
+          <span class="visiters__time">VISITED AT</span>
+          </l1>
+          <% urlDatabase[shortURL].visiterLog.forEach(item=>{ %>
+            <li class="visiters__detail">
+              <span class="visiters__id">
+                <%= item.id %>
+              </span>
+              <span class="visiters__time">
+                <%= item.visitedOn %>
+              </span>
+            </li>
+            <% })%>
 
- </ul>
- </div>
- </main>
-   <% include ./partials/_footer%>
+      </ul>
+    </div>
+  </main>
+  <% include ./partials/_footer%>
 
 </body>
+
 </html>
