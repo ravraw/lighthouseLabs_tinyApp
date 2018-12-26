@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "\"lighthouse labs : project-2 TINY APP\"",
   "main": "index.js",
+    "engines": {
+    "node": "10.12.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
