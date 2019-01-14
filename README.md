@@ -4,10 +4,10 @@ Tiny app is a full stack web application built with Node and express that allows
 
 ## Final Product.
 <p align="center">
-<img src='https://github.com/ravraw/lighthouseLabs_tinyApp.git' width="60%" height="60%" alt='home'/>
-<img src='./screenshots/createUrl.png' width="60%" height="60%"  />
-<img src='./screenshots/updateUrl.png' width="60%" height="60%" />
-<img src='./screenshots/urlCollection.png' width="60%" height="60%" />
+<img src='./screenShots/register.png' width="60%" height="60%" alt='home'/>
+<img src='./screenShots/createUrl.png' width="60%" height="60%"  />
+<img src='./screenShots/updateUrl.png' width="60%" height="60%" />
+<img src='./screenShots/urlCollection.png' width="60%" height="60%" />
 </p>
 
 ## Dependencies
